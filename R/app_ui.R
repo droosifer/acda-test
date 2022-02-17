@@ -9,10 +9,35 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic 
+    titlePanel("Shiny Session Info"),
     fluidPage(
-      h1("GolemTest")
+      sidebarLayout(
+        sidebarPanel(
+          h3("An Example App for Exploring Shiny"),
+          p("If you encounter any issues with this application, please submit bugs to ", a("GitHub", href = "https://github.com/colearendt/shiny-session-info")),
+          p("Use the listviewers to the right for exploring Shiny session state"),
+          br(),
+          h4("Important Notes"),
+          p("This app has shown fragility with a large number of groups. If you see errors and have a large number of groups, please refresh")
+        ),
+        
+        mainPanel(
+          h2("session$clientData"),
+          listviewer::jsoneditOutput("clientdataText"),
+          h2("session"),
+          listviewer::jsoneditOutput("sessionInfo"),
+          h2("UI req object"),
+          listviewer::jsonedit(
+            safe_list(request)
+            , mode = 'view'
+            , modes = list('view')
+          )
+        )
+      )
+      
     )
-  )
+    
+    )
 }
 
 #' Add external Resources to the Application
